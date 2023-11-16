@@ -3,8 +3,8 @@ SQL TASK: At this point, you will have one table, job. In queries.sql under “P
 
 CREATE TABLE job (
 id INTEGER PRIMARY KEY AUTO_INCREMENT,
-name VARCHAR,
 employer VARCHAR,
+name VARCHAR,
 skills VARCHAR
 );
 
