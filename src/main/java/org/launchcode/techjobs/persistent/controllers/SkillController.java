@@ -2,6 +2,7 @@ package org.launchcode.techjobs.persistent.controllers;
 
 import jakarta.validation.Valid;
 
+import org.launchcode.techjobs.persistent.models.Employer;
 import org.launchcode.techjobs.persistent.models.Skill;
 import org.launchcode.techjobs.persistent.models.data.SkillRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,12 +43,12 @@ public class SkillController {
 
 
     @GetMapping("view/{skill}")
-    public String displayViewSkill(Model model, @PathVariable int skill) {
+    public String displayViewSkill(Model model, @PathVariable int employerId) {
 
-        Optional optSkill = skillRepository.findById(skill);
-        if (optSkill.isPresent()) {
-            Skill description = (Skill) optSkill.get();
-            model.addAttribute("description", description);
+        Optional optEmployer = skillRepository.findById(employerId);
+        if (optEmployer.isPresent()) {
+            Employer employer = (Employer) optEmployer.get();
+            model.addAttribute("employer", employer);
             return "skills/view";
         } else {
             return "redirect:../";
