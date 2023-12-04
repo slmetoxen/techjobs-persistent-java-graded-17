@@ -27,11 +27,11 @@ public class EmployerController {
     @PostMapping("add")
     public String processAddEmployerForm(@ModelAttribute @Valid Employer newEmployer,
                                          Errors errors, Model model) {
-        model.addAttribute(employerRepository.save(newEmployer));
+
         if (errors.hasErrors()) {
             return "employers/add";
         }
-
+        employerRepository.save(newEmployer);
         return "redirect:";
     }
 
@@ -50,7 +50,7 @@ public class EmployerController {
     }
     @GetMapping("/")
     public String index(Model model) {
-        model.addAttribute(employerRepository.findAll());
+        model.addAttribute("employer",employerRepository.findAll());
         return "redirect:";
     }
 

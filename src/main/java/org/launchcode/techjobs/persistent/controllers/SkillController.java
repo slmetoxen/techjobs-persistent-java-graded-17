@@ -33,11 +33,11 @@ public class SkillController {
     @PostMapping("add")
     public String processAddSkillForm(@ModelAttribute @Valid Skill newSkill,
                                       Errors errors, Model model) {
-        model.addAttribute(skillRepository.save(newSkill));
+
         if (errors.hasErrors()) {
             return "skills/add";
         }
-
+        skillRepository.save(newSkill);
         return "redirect:";
     }
 
