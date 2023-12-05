@@ -24,6 +24,7 @@
                 <a th:href="@{/list/jobs(column='All',value='View All')}">View All</a>
             </li>
         </td>
+        <!-- I added "job." to both the texts and values and changed skill to skills -->
         <td>
             <li th:each="employer : ${employers}">
                 <a th:href="@{/list/jobs(column=employer,value=${employer.name})}" th:text="${employer.name}"></a>

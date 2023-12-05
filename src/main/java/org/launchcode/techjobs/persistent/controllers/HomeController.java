@@ -3,6 +3,7 @@ package org.launchcode.techjobs.persistent.controllers;
 import jakarta.validation.Valid;
 import org.launchcode.techjobs.persistent.models.Employer;
 import org.launchcode.techjobs.persistent.models.Job;
+import org.launchcode.techjobs.persistent.models.Skill;
 import org.launchcode.techjobs.persistent.models.data.EmployerRepository;
 import org.launchcode.techjobs.persistent.models.data.JobRepository;
 import org.launchcode.techjobs.persistent.models.data.SkillRepository;
@@ -34,31 +35,46 @@ public class HomeController {
     @RequestMapping("/")
     public String index(Model model) {
 
-        model.addAttribute("title", "MyJobs");
+        model.addAttribute("jobs", jobRepository.findAll());
+
 
         return "index";
     }
 
     @GetMapping("add")
     public String displayAddJobForm(Model model) {
-	model.addAttribute("title", "Add Job");
+	   // model.addAttribute("title", "Add Job");
+        model.addAttribute("employers", employerRepository.findAll());
+        model.addAttribute("skills", skillRepository.findAll());
         model.addAttribute(new Job());
         return "add";
     }
 
     @PostMapping("add")
-    public String processAddJobForm(@ModelAttribute @Valid Job newJob,
-                                       Errors errors, Model model, @RequestParam int employerId) {
+    public String processAddJobForm( @ModelAttribute @Valid Job newJob,
+                                       Errors errors, Model model, @RequestParam int employerId, @RequestParam List<Integer> skills) {
 
         if (errors.hasErrors()) {
             model.addAttribute("title", "Add Job");
-            //employerRepository.findAll();
+
+           // List<Employer> employers = (List<Employer>) employerRepository.findAll();
             return "add";
         } else {
-            employerRepository.findById(employerId);
-            List<Employer> employers = (List<Employer>) employerRepository.findAll();
-            newJob.setEmployer((Employer) employers);
+            Employer employer = employerRepository.findById(employerId).orElse(new Employer());
+            newJob.setEmployer(employer);
+
+            List<Skill> skillObjs = (List<Skill>) skillRepository.findAllById(skills);
+            newJob.setSkills(skillObjs);
+
+            //model.addAttribute("employers",employerRepository.findAll());
+            //List<Employer> employers = (List<Employer>) employerRepository.findAll();
+            //newJob.setEmployer(employers);
+
+//            Employer jobResult = (List<Employer>) employerRepository.findAllById(employerId);
+//            newJob.setEmployer(jobResult);
     }
+//        List<Skill> skillObjs = (List<Skill>) skillRepository.findAllById(skills);
+//        newJob.setSkills(skillObjs);
 
         jobRepository.save(newJob);
         return "redirect:";
@@ -72,39 +88,13 @@ public class HomeController {
         if (jobResult.isPresent()) {
             Job job = jobResult.get();
             model.addAttribute("jobs", jobRepository.findAll());
+
     }
             return "view";
         }
     }
 
 
-    //        } else {
-//            return "redirect:../";
-
-//    @GetMapping("view/{skill}")
-//    public String displayViewSkill(Model model, @PathVariable int employerId) {
-//
-//        Optional optEmployer = skillRepository.findById(employerId);
-//        if (optEmployer.isPresent()) {
-//            Employer employer = (Employer) optEmployer.get();
-//            model.addAttribute("employer", employer);
-//            return "skills/view";
-//        } else {
-//            return "redirect:../";
-//        }
-//    }
-
-    //    @GetMapping("view/{employerId}")
-//    public String displayViewEmployer(Model model, @PathVariable int employerId) {
-//
-//        Optional optEmployer = employerRepository.findById(employerId);
-//        if (optEmployer.isPresent()) {
-//            Employer employer = (Employer) optEmployer.get();
-//            model.addAttribute("employer", employer);
-//            return "employers/view";
-//        } else {
-//            return "redirect:../";
-//        }
 
 
 
