@@ -32,6 +32,7 @@ public class EmployerController {
             return "employers/add";
         }
         employerRepository.save(newEmployer);
+        // tried redirecting with 'return "redirect:/employers";' but that results in whitelabel error
         return "redirect:";
     }
 
@@ -51,6 +52,7 @@ public class EmployerController {
     @GetMapping("/")
     public String index(Model model) {
         model.addAttribute("employer",employerRepository.findAll());
+       // model.addAttribute("job",jobRepository.findAll());
         return "redirect:";
     }
 

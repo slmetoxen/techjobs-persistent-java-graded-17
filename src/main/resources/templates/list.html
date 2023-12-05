@@ -24,7 +24,9 @@
                 <a th:href="@{/list/jobs(column='All',value='View All')}">View All</a>
             </li>
         </td>
-        <!-- I added "job." to both the texts and values and changed skill to skills -->
+        <!-- I added "job." to both the texts and values for employer but then my list jobs application doesn't work I also changed skill to skills
+            I changed the value from employer.name to employer.id -Caused by: org.thymeleaf.exceptions.TemplateProcessingException: Exception evaluating SpringEL expression: "'Job: ' + job.name" (template: "view" - line 6, col 5
+             -->
         <td>
             <li th:each="employer : ${employers}">
                 <a th:href="@{/list/jobs(column=employer,value=${employer.name})}" th:text="${employer.name}"></a>
