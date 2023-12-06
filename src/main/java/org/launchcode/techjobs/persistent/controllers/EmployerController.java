@@ -3,6 +3,7 @@ package org.launchcode.techjobs.persistent.controllers;
 import jakarta.validation.Valid;
 import org.launchcode.techjobs.persistent.models.Employer;
 import org.launchcode.techjobs.persistent.models.data.EmployerRepository;
+import org.launchcode.techjobs.persistent.models.data.JobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +19,9 @@ public class EmployerController {
     @Autowired
     private EmployerRepository employerRepository;
 
+//    @Autowired
+//    private JobRepository jobRepository;
+
     @GetMapping("add")
     public String displayAddEmployerForm(Model model) {
         model.addAttribute(new Employer());
@@ -31,6 +35,7 @@ public class EmployerController {
         if (errors.hasErrors()) {
             return "employers/add";
         }
+        //model.addAttribute(employerRepository.save(newEmployer));
         employerRepository.save(newEmployer);
         // tried redirecting with 'return "redirect:/employers";' but that results in whitelabel error
         return "redirect:";
@@ -51,9 +56,9 @@ public class EmployerController {
     }
     @GetMapping("/")
     public String index(Model model) {
-        model.addAttribute("employer",employerRepository.findAll());
+        model.addAttribute("employers",employerRepository.findAll());
        // model.addAttribute("job",jobRepository.findAll());
-        return "redirect:";
+        return "employers/index";
     }
 
 }

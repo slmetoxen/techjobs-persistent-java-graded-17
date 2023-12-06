@@ -21,7 +21,7 @@ public class SkillController {
     @GetMapping("/")
     public String index(Model model) {
         model.addAttribute(skillRepository.findAll());
-        return "redirect:";
+        return "skills/index";
     }
 
     @GetMapping("add")
