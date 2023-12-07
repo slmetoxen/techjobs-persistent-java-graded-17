@@ -120,7 +120,7 @@ public class HomeController {
         Optional<Job> jobResult = jobRepository.findById(jobId);
         if (jobResult.isPresent()) {
             Job job = jobResult.get();
-            model.addAttribute("jobs", jobRepository.findAll());
+            model.addAttribute("job",job);
 
     }
             return "view";
